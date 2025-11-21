@@ -1,0 +1,1869 @@
+<!doctype html>
+<html lang="id">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistem Penilaian Ekstra Kurikuler</title>
+  <script src="/_sdk/data_sdk.js"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <style>
+    /* Tailwind CSS classes inline untuk production */
+    .min-h-full { min-height: 100%; }
+    .max-w-7xl { max-width: 80rem; }
+    .mx-auto { margin-left: auto; margin-right: auto; }
+    .px-4 { padding-left: 1rem; padding-right: 1rem; }
+    .py-6 { padding-top: 1.5rem; padding-bottom: 1.5rem; }
+    .py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
+    .py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+    .px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
+    .px-3 { padding-left: 0.75rem; padding-right: 0.75rem; }
+    .px-8 { padding-left: 2rem; padding-right: 2rem; }
+    .font-bold { font-weight: 700; }
+    .font-medium { font-weight: 500; }
+    .font-semibold { font-weight: 600; }
+    .text-center { text-align: center; }
+    .text-left { text-align: left; }
+    .text-xl { font-size: 1.25rem; line-height: 1.75rem; }
+    .text-lg { font-size: 1.125rem; line-height: 1.75rem; }
+    .text-sm { font-size: 0.875rem; line-height: 1.25rem; }
+    .mt-2 { margin-top: 0.5rem; }
+    .mt-1 { margin-top: 0.25rem; }
+    .mt-4 { margin-top: 1rem; }
+    .mt-6 { margin-top: 1.5rem; }
+    .mb-2 { margin-bottom: 0.5rem; }
+    .mb-4 { margin-bottom: 1rem; }
+    .mb-6 { margin-bottom: 1.5rem; }
+    .mr-2 { margin-right: 0.5rem; }
+    .shadow-md { box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); }
+    .rounded-lg { border-radius: 0.5rem; }
+    .rounded { border-radius: 0.25rem; }
+    .rounded-full { border-radius: 9999px; }
+    .border { border-width: 1px; border-color: #d1d5db; }
+    .border-b { border-bottom-width: 1px; border-bottom-color: #d1d5db; }
+    .border-b-2 { border-bottom-width: 2px; }
+    .w-full { width: 100%; }
+    .w-90 { width: 90%; }
+    .flex { display: flex; }
+    .flex-1 { flex: 1 1 0%; }
+    .items-center { align-items: center; }
+    .items-end { align-items: flex-end; }
+    .justify-between { justify-content: space-between; }
+    .justify-center { justify-content: center; }
+    .justify-end { justify-content: flex-end; }
+    .space-x-4 > :not([hidden]) ~ :not([hidden]) { margin-left: 1rem; }
+    .space-y-3 > :not([hidden]) ~ :not([hidden]) { margin-top: 0.75rem; }
+    .space-y-4 > :not([hidden]) ~ :not([hidden]) { margin-top: 1rem; }
+    .gap-2 { gap: 0.5rem; }
+    .gap-3 { gap: 0.75rem; }
+    .gap-4 { gap: 1rem; }
+    .hidden { display: none; }
+    .block { display: block; }
+    .grid { display: grid; }
+    .grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+    .overflow-x-auto { overflow-x: auto; }
+    .overflow-y-auto { overflow-y: auto; }
+    .transition-colors { transition-property: color, background-color, border-color, text-decoration-color, fill, stroke; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms; }
+    .focus\:ring-2:focus { box-shadow: 0 0 0 2px rgb(59 130 246 / 0.5); }
+    .focus\:outline-none:focus { outline: 2px solid transparent; outline-offset: 2px; }
+    .hover\:bg-gray-50:hover { background-color: #f9fafb; }
+    .resize-none { resize: none; }
+    .relative { position: relative; }
+    .absolute { position: absolute; }
+    .left-3 { left: 0.75rem; }
+    .top-2\.5 { top: 0.625rem; }
+    .pl-10 { padding-left: 2.5rem; }
+    .border-collapse { border-collapse: collapse; }
+    .text-gray-400 { color: #9ca3af; }
+    .text-gray-500 { color: #6b7280; }
+    .bg-gray-50 { background-color: #f9fafb; }
+    .border-blue-500 { border-color: #3b82f6; }
+    .text-blue-600 { color: #2563eb; }
+    
+    @media (min-width: 768px) {
+      .md\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+  </style>
+  <style>
+    body {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      height: 100%;
+    }
+    html {
+      height: 100%;
+    }
+    .toast {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 16px 24px;
+      border-radius: 8px;
+      color: white;
+      font-weight: 500;
+      z-index: 1000;
+      animation: slideIn 0.3s ease-out;
+    }
+    @keyframes slideIn {
+      from {
+        transform: translateX(400px);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+    }
+    .modal-content {
+      background: white;
+      border-radius: 12px;
+      padding: 24px;
+      max-width: 500px;
+      width: 90%;
+      max-height: 90%;
+      overflow-y: auto;
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+ </head>
+ <body>
+  <div id="app" class="min-h-full"><!-- Header -->
+   <header id="header" class="shadow-md">
+    <div class="max-w-7xl mx-auto px-4 py-6">
+     <h1 id="app-title" class="font-bold text-center"></h1>
+     <p id="school-name" class="text-center mt-2"></p>
+     <p id="semester-label" class="text-center mt-1"></p>
+    </div>
+   </header><!-- Navigation Tabs -->
+   <div id="nav-tabs" class="border-b">
+    <div class="max-w-7xl mx-auto px-4">
+     <div class="flex space-x-4"><button id="tab-input" class="px-6 py-3 font-medium border-b-2 transition-colors"> Input Penilaian </button> <button id="tab-rekap" class="px-6 py-3 font-medium border-b-2 transition-colors"> Rekap Penilaian </button> <button id="tab-data" class="px-6 py-3 font-medium border-b-2 transition-colors"> Data Anggota </button>
+     </div>
+    </div>
+   </div><!-- Main Content -->
+   <main class="max-w-7xl mx-auto px-4 py-6"><!-- Input Penilaian Section -->
+    <div id="section-input" class="hidden">
+     <div class="rounded-lg shadow-md p-6 mb-6">
+      <h2 class="text-xl font-bold mb-4">Filter Ekstra Kurikuler</h2>
+      <div class="flex gap-4 items-end">
+       <div class="flex-1"><label for="filter-ekstra" class="block font-medium mb-2">Pilih Ekstra Kurikuler</label> <select id="filter-ekstra" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:outline-none"> <option value="">-- Pilih Ekstra --</option> </select>
+       </div><button id="btn-filter" class="px-6 py-2 rounded-lg font-medium transition-colors"> Tampilkan Anggota </button>
+      </div>
+     </div>
+     <div id="anggota-list" class="hidden">
+      <div class="rounded-lg shadow-md p-6">
+       <div class="flex justify-between items-center mb-4">
+        <h2 class="text-xl font-bold">Daftar Anggota</h2><span id="anggota-count" class="px-3 py-1 rounded-full text-sm font-medium"></span>
+       </div>
+       <div id="anggota-container" class="space-y-3"></div>
+      </div>
+     </div>
+    </div><!-- Rekap Penilaian Section -->
+    <div id="section-rekap" class="hidden">
+     <div class="rounded-lg shadow-md p-6 mb-6">
+      <h2 class="text-xl font-bold mb-4">Filter Rekap</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+       <div><label for="rekap-ekstra" class="block font-medium mb-2">Ekstra Kurikuler</label> <select id="rekap-ekstra" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:outline-none"> <option value="">Semua Ekstra</option> </select>
+       </div>
+       <div><label for="rekap-kelas" class="block font-medium mb-2">Kelas</label> <select id="rekap-kelas" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:outline-none"> <option value="">Semua Kelas</option> </select>
+       </div>
+       <div><label for="rekap-keterangan" class="block font-medium mb-2">Keterangan</label> <select id="rekap-keterangan" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:outline-none"> <option value="">Semua</option> <option value="Sangat Baik">Sangat Baik</option> <option value="Baik">Baik</option> <option value="Sedang">Sedang</option> <option value="Cukup">Cukup</option> </select>
+       </div>
+      </div>
+      <div class="flex gap-4 mt-4"><button id="btn-load-rekap" class="px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2"> <span>🔄</span> <span>Muat Rekap dari Sheet3</span> </button>
+      </div>
+     </div>
+     <div class="rounded-lg shadow-md p-6">
+      <div class="flex justify-between items-center mb-4">
+       <h2 class="text-xl font-bold">Hasil Rekap</h2><button id="btn-export" class="px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2"> <span>📊</span> <span>Export Excel</span> </button>
+      </div>
+      <div class="overflow-x-auto">
+       <table class="w-full">
+        <thead>
+         <tr id="table-header">
+          <th class="px-4 py-3 text-left font-semibold">Ekstra</th>
+          <th class="px-4 py-3 text-left font-semibold">Kelas</th>
+          <th class="px-4 py-3 text-left font-semibold">Nama</th>
+          <th class="px-4 py-3 text-left font-semibold">Kategori Penilaian</th>
+          <th class="px-4 py-3 text-left font-semibold">Deskripsi</th>
+          <th class="px-4 py-3 text-left font-semibold">Aksi</th>
+         </tr>
+        </thead>
+        <tbody id="rekap-tbody"></tbody>
+       </table>
+       <div id="empty-rekap" class="text-center py-8 hidden">
+        <p class="text-lg">Tidak ada data penilaian</p>
+       </div>
+      </div><!-- Pagination Controls -->
+      <div id="pagination-container" class="flex justify-between items-center mt-4 hidden">
+       <div>
+        <p id="pagination-info" class="text-sm"></p>
+       </div>
+       <div class="flex gap-2"><button id="btn-prev" class="px-4 py-2 rounded-lg font-medium transition-colors"> ← Sebelumnya </button> <button id="btn-next" class="px-4 py-2 rounded-lg font-medium transition-colors"> Selanjutnya → </button>
+       </div>
+      </div>
+     </div>
+    </div><!-- Data Anggota Section -->
+    <div id="section-data" class="hidden">
+     <div class="rounded-lg shadow-md p-6 mb-6">
+      <h2 class="text-xl font-bold mb-4">Manajemen Data Anggota</h2>
+      <div class="p-4 rounded-lg" style="background-color: #f0f9ff; border: 1px solid #0ea5e9;">
+       <p class="text-sm"><strong>Info:</strong> Data anggota dimuat dari Google Sheet (Sheet1)</p>
+       <p class="text-sm mt-1"><strong>Fitur:</strong> Load, Tambah, Edit, Hapus, Search, Pagination, dan Export CSV</p>
+       <p class="text-sm mt-1"><strong>Status:</strong> <span id="connection-status">Memuat data...</span></p>
+      </div>
+      <div class="flex gap-4 mt-4"><button id="btn-load-anggota" class="px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2"> <span>🔄</span> <span>Muat Data dari Google Sheet</span> </button>
+       <div class="text-sm text-gray-600"><span>💡</span> <span>Klik "Muat Data" untuk sinkronisasi dengan Google Sheet</span>
+       </div>
+      </div>
+     </div>
+     <div class="rounded-lg shadow-md p-6">
+      <div class="flex justify-between items-center mb-4">
+       <h2 class="text-xl font-bold">Data Anggota</h2>
+       <div class="flex gap-2"><button id="btn-export-anggota" class="px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2"> <span>📊</span> <span>Export Excel</span> </button> <button id="btn-add-anggota" class="px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2"> <span>➕</span> <span>Tambah Anggota</span> </button>
+       </div>
+      </div><!-- Search Bar -->
+      <div class="mb-4">
+       <div class="relative"><input type="text" id="search-anggota" placeholder="Cari berdasarkan nama, kelas, atau ekstra..." class="w-full px-4 py-2 pl-10 border rounded-lg focus:ring-2 focus:outline-none"> <span class="absolute left-3 top-2.5 text-gray-400">🔍</span>
+       </div>
+      </div>
+      <div class="overflow-x-auto">
+       <table class="w-full">
+        <thead>
+         <tr id="data-header">
+          <th class="px-4 py-3 text-left font-semibold">Nama</th>
+          <th class="px-4 py-3 text-left font-semibold">Kelas</th>
+          <th class="px-4 py-3 text-left font-semibold">Ekstra</th>
+          <th class="px-4 py-3 text-left font-semibold">Aksi</th>
+         </tr>
+        </thead>
+        <tbody id="data-tbody"></tbody>
+       </table>
+       <div id="empty-data" class="text-center py-8">
+        <p class="text-lg">Belum ada data anggota. Tambahkan anggota baru.</p>
+       </div>
+      </div><!-- Pagination untuk Data Anggota -->
+      <div id="anggota-pagination" class="flex justify-between items-center mt-4 hidden">
+       <div>
+        <p id="anggota-pagination-info" class="text-sm"></p>
+       </div>
+       <div class="flex gap-2"><button id="btn-anggota-prev" class="px-4 py-2 rounded-lg font-medium transition-colors"> ← Sebelumnya </button> <button id="btn-anggota-next" class="px-4 py-2 rounded-lg font-medium transition-colors"> Selanjutnya → </button>
+       </div>
+      </div>
+     </div>
+    </div>
+   </main><!-- Modal Form Penilaian -->
+   <div id="modal-form" class="modal-backdrop hidden">
+    <div class="modal-content">
+     <h3 id="modal-title" class="text-xl font-bold mb-4"></h3>
+     <form id="form-penilaian">
+      <div class="space-y-4">
+       <div><label for="form-nama" class="block font-medium mb-2">Nama Siswa</label> <input type="text" id="form-nama" readonly class="w-full px-4 py-2 border rounded-lg">
+       </div>
+       <div><label for="form-kelas" class="block font-medium mb-2">Kelas</label> <input type="text" id="form-kelas" readonly class="w-full px-4 py-2 border rounded-lg">
+       </div>
+       <div><label for="form-ekstra" class="block font-medium mb-2">Ekstra Kurikuler</label> <input type="text" id="form-ekstra" readonly class="w-full px-4 py-2 border rounded-lg">
+       </div>
+       <div><label for="form-keterangan" class="block font-medium mb-2">Kategori Penilaian</label> <select id="form-keterangan" required class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:outline-none"> <option value="">-- Pilih Kategori --</option> <option value="Sangat Baik">Sangat Baik</option> <option value="Baik">Baik</option> <option value="Sedang">Sedang</option> <option value="Cukup">Cukup</option> </select>
+       </div>
+       <div><label for="form-nilai" class="block font-medium mb-2">Deskripsi</label> <textarea id="form-nilai" rows="3" placeholder="Masukkan deskripsi penilaian..." required class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:outline-none resize-none"></textarea>
+       </div>
+      </div>
+      <div class="flex gap-3 mt-6"><button type="submit" id="btn-submit" class="flex-1 px-6 py-2 rounded-lg font-medium transition-colors"> Simpan </button> <button type="button" id="btn-cancel" class="flex-1 px-6 py-2 rounded-lg font-medium transition-colors"> Batal </button>
+      </div>
+     </form>
+    </div>
+   </div><!-- Modal Form Anggota -->
+   <div id="modal-anggota" class="modal-backdrop hidden">
+    <div class="modal-content">
+     <h3 id="modal-anggota-title" class="text-xl font-bold mb-4">Tambah Anggota</h3>
+     <form id="form-anggota">
+      <div class="space-y-4">
+       <div><label for="anggota-nama" class="block font-medium mb-2">Nama Siswa</label> <input type="text" id="anggota-nama" required class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:outline-none">
+       </div>
+       <div><label for="anggota-kelas" class="block font-medium mb-2">Kelas</label>
+        <div class="relative"><select id="anggota-kelas-select" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:outline-none"> <option value="">-- Pilih Kelas atau Tulis Baru --</option> </select> <input type="text" id="anggota-kelas-input" placeholder="Atau tulis kelas baru (contoh: X IPA 1)" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:outline-none mt-2">
+        </div>
+       </div>
+       <div><label for="anggota-ekstra" class="block font-medium mb-2">Ekstra Kurikuler</label>
+        <div class="relative"><select id="anggota-ekstra-select" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:outline-none"> <option value="">-- Pilih Ekstra atau Tulis Baru --</option> </select> <input type="text" id="anggota-ekstra-input" placeholder="Atau tulis ekstra baru (contoh: Pramuka)" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:outline-none mt-2">
+        </div>
+       </div>
+      </div>
+      <div class="flex gap-3 mt-6"><button type="submit" id="btn-submit-anggota" class="flex-1 px-6 py-2 rounded-lg font-medium transition-colors"> Simpan </button> <button type="button" id="btn-cancel-anggota" class="flex-1 px-6 py-2 rounded-lg font-medium transition-colors"> Batal </button>
+      </div>
+     </form>
+    </div>
+   </div><!-- Delete Confirmation Modal -->
+   <div id="modal-delete" class="modal-backdrop hidden">
+    <div class="modal-content">
+     <h3 class="text-xl font-bold mb-4">Konfirmasi Hapus</h3>
+     <p id="delete-message" class="mb-6">Apakah Anda yakin ingin menghapus data ini?</p>
+     <div class="flex gap-3"><button id="btn-confirm-delete" class="flex-1 px-6 py-2 rounded-lg font-medium transition-colors"> Hapus </button> <button id="btn-cancel-delete" class="flex-1 px-6 py-2 rounded-lg font-medium transition-colors"> Batal </button>
+     </div>
+    </div>
+   </div>
+  </div>
+  <script>
+    const defaultConfig = {
+      app_title: "Sistem Penilaian Ekstra Kurikuler",
+      school_name: "SMA TAKHASSUS WONOSOBO",
+      semester_label: "Penilaian Akhir Semester",
+      primary_color: "#2563eb",
+      secondary_color: "#ffffff",
+      text_color: "#1f2937",
+      accent_color: "#10b981",
+      danger_color: "#ef4444",
+      font_family: "system-ui",
+      font_size: 16
+    };
+
+    let allRecords = [];
+    let rekapRecords = [];
+    let anggotaData = [];
+    let filteredAnggotaData = [];
+    let currentTab = 'input';
+    let editingRecord = null;
+    let editingAnggota = null;
+    let deleteRecord = null;
+    let deleteAnggota = null;
+    let currentPage = 1;
+    let recordsPerPage = 30;
+    let filteredRecords = [];
+    
+    // Pagination untuk data anggota
+    let currentAnggotaPage = 1;
+    let anggotaPerPage = 30;
+    
+    const WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbzt6Ycp9UmvinQyd8s8e7-cWlnXlcTTyW8wjQPH-2bf0451SD7Jr3jUlx1_H3_32BQY/exec';
+    const SHEET_ID = '18jjpfBhHeFhQdRsar8VYs813x_py6zhQLfKnTmcdY5s';
+
+    async function onConfigChange(config) {
+      const customFont = config.font_family || defaultConfig.font_family;
+      const baseFontStack = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+      const fontFamily = `${customFont}, ${baseFontStack}`;
+      const baseSize = config.font_size || defaultConfig.font_size;
+      
+      const primaryColor = config.primary_color || defaultConfig.primary_color;
+      const secondaryColor = config.secondary_color || defaultConfig.secondary_color;
+      const textColor = config.text_color || defaultConfig.text_color;
+      const accentColor = config.accent_color || defaultConfig.accent_color;
+      const dangerColor = config.danger_color || defaultConfig.danger_color;
+
+      // Apply basic styles
+      document.body.style.fontFamily = fontFamily;
+      document.body.style.fontSize = `${baseSize}px`;
+      document.body.style.backgroundColor = secondaryColor;
+      document.body.style.color = textColor;
+
+      // Update header
+      const header = document.getElementById('header');
+      if (header) {
+        header.style.backgroundColor = primaryColor;
+        header.style.color = secondaryColor;
+      }
+
+      // Update text content
+      const appTitle = document.getElementById('app-title');
+      if (appTitle) {
+        appTitle.textContent = config.app_title || defaultConfig.app_title;
+        appTitle.style.fontSize = `${baseSize * 1.75}px`;
+        appTitle.style.color = secondaryColor;
+      }
+
+      const schoolName = document.getElementById('school-name');
+      if (schoolName) {
+        schoolName.textContent = config.school_name || defaultConfig.school_name;
+        schoolName.style.fontSize = `${baseSize * 1.125}px`;
+        schoolName.style.color = secondaryColor;
+      }
+
+      const semesterLabel = document.getElementById('semester-label');
+      if (semesterLabel) {
+        semesterLabel.textContent = config.semester_label || defaultConfig.semester_label;
+        semesterLabel.style.fontSize = `${baseSize * 0.875}px`;
+        semesterLabel.style.color = secondaryColor;
+      }
+
+      // Update buttons with safe checks
+      const buttons = [
+        { id: 'btn-filter', color: primaryColor },
+        { id: 'btn-export', color: accentColor },
+        { id: 'btn-load-rekap', color: primaryColor },
+        { id: 'btn-load-anggota', color: primaryColor },
+        { id: 'btn-add-anggota', color: accentColor },
+        { id: 'btn-export-anggota', color: accentColor },
+        { id: 'btn-submit', color: accentColor },
+        { id: 'btn-submit-anggota', color: accentColor },
+        { id: 'btn-confirm-delete', color: dangerColor },
+        { id: 'btn-prev', color: primaryColor },
+        { id: 'btn-next', color: primaryColor },
+        { id: 'btn-anggota-prev', color: primaryColor },
+        { id: 'btn-anggota-next', color: primaryColor }
+      ];
+
+      buttons.forEach(({ id, color }) => {
+        const btn = document.getElementById(id);
+        if (btn) {
+          btn.style.backgroundColor = color;
+          btn.style.color = secondaryColor;
+        }
+      });
+    }
+
+    const dataHandler = {
+      onDataChanged(data) {
+        allRecords = data;
+        filteredRecords = data;
+        currentPage = 1;
+        updateRekapTable();
+        updateFilterOptions();
+      }
+    };
+
+    // Fungsi untuk mengambil data anggota dari Sheet1
+    async function loadAnggotaFromSheet1() {
+      try {
+        const response = await fetch(WEBAPP_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: new URLSearchParams({
+            action: 'getAnggota'
+          }),
+          mode: 'cors'
+        });
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const result = await response.json();
+        
+        if (result.success) {
+          anggotaData = result.data || [];
+          filteredAnggotaData = anggotaData;
+          updateFilterOptions();
+          displayDataTable();
+          
+          // Update connection status
+          const statusElement = document.getElementById('connection-status');
+          if (statusElement) {
+            statusElement.textContent = `Terhubung ✅ (${anggotaData.length} data anggota)`;
+            statusElement.style.color = '#10b981';
+          }
+          
+          showToast(`Berhasil memuat ${anggotaData.length} data anggota dari Sheet1`);
+        } else {
+          // Update connection status
+          const statusElement = document.getElementById('connection-status');
+          if (statusElement) {
+            statusElement.textContent = 'Gagal terhubung ❌';
+            statusElement.style.color = '#ef4444';
+          }
+          
+          showToast(`Gagal memuat data anggota: ${result.message || 'Error tidak diketahui'}`, 'error');
+        }
+      } catch (error) {
+        console.error('Error loading anggota:', error);
+        
+        // Update connection status
+        const statusElement = document.getElementById('connection-status');
+        if (statusElement) {
+          statusElement.textContent = 'Gagal terhubung ❌';
+          statusElement.style.color = '#ef4444';
+        }
+        
+        showToast('Gagal terhubung ke Google Sheet untuk memuat data anggota: ' + error.message, 'error');
+      }
+    }
+
+    // Fungsi untuk mengambil rekap dari Sheet3
+    async function loadRekapFromSheet3() {
+      try {
+        const btnLoad = document.getElementById('btn-load-rekap');
+        btnLoad.disabled = true;
+        btnLoad.textContent = 'Memuat...';
+
+        const response = await fetch(WEBAPP_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: new URLSearchParams({
+            action: 'getRekap'
+          }),
+          mode: 'cors'
+        });
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const result = await response.json();
+        
+        if (result.success) {
+          rekapRecords = result.data || [];
+          filteredRecords = rekapRecords;
+          currentPage = 1;
+          updateRekapTable();
+          showToast(`Berhasil memuat ${rekapRecords.length} data rekap dari Sheet3`);
+        } else {
+          showToast(`Gagal memuat rekap: ${result.message || 'Error tidak diketahui'}`, 'error');
+        }
+
+        btnLoad.disabled = false;
+        btnLoad.textContent = 'Muat Rekap dari Sheet3';
+      } catch (error) {
+        console.error('Error loading rekap:', error);
+        showToast('Gagal terhubung ke Google Sheet untuk memuat rekap: ' + error.message, 'error');
+        
+        const btnLoad = document.getElementById('btn-load-rekap');
+        btnLoad.disabled = false;
+        btnLoad.textContent = 'Muat Rekap dari Sheet3';
+      }
+    }
+
+    // Fungsi untuk mengirim penilaian ke Google Sheet
+    async function sendToGoogleSheet(penilaianData) {
+      try {
+        const dataArray = Array.isArray(penilaianData) ? penilaianData : [penilaianData];
+        
+        // Format data untuk dikirim ke Google Sheet
+        const formattedData = dataArray.map(item => ({
+          nama: item.nama,
+          kelas: item.kelas,
+          ekstra: item.ekstra,
+          nilai: item.nilai, // Ini sudah berupa kategori (Sangat Baik, Baik, dll)
+          keterangan: item.keterangan,
+          timestamp: item.timestamp || new Date().toISOString()
+        }));
+
+        const response = await fetch(WEBAPP_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: new URLSearchParams({
+            action: 'kirimPenilaian',
+            data: JSON.stringify(formattedData)
+          }),
+          mode: 'cors'
+        });
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const result = await response.json();
+        
+        if (result.success) {
+          return {
+            success: true,
+            message: 'Data berhasil dikirim ke Google Sheet'
+          };
+        } else {
+          return {
+            success: false,
+            message: result.message || 'Gagal mengirim data ke Google Sheet'
+          };
+        }
+      } catch (error) {
+        console.error('Error sending to Google Sheet:', error);
+        return {
+          success: false,
+          message: 'Gagal terhubung ke Google Sheet: ' + error.message
+        };
+      }
+    }
+
+    function showToast(message, type = 'success') {
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.textContent = message;
+      toast.style.backgroundColor = type === 'success' ? '#10b981' : '#ef4444';
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 3000);
+    }
+
+    function switchTab(tab) {
+      currentTab = tab;
+      document.getElementById('section-input').classList.add('hidden');
+      document.getElementById('section-rekap').classList.add('hidden');
+      document.getElementById('section-data').classList.add('hidden');
+
+      // Update tab styles
+      document.getElementById('tab-input').classList.remove('border-blue-500', 'text-blue-600');
+      document.getElementById('tab-rekap').classList.remove('border-blue-500', 'text-blue-600');
+      document.getElementById('tab-data').classList.remove('border-blue-500', 'text-blue-600');
+
+      if (tab === 'input') {
+        document.getElementById('section-input').classList.remove('hidden');
+        document.getElementById('tab-input').classList.add('border-blue-500', 'text-blue-600');
+      } else if (tab === 'rekap') {
+        document.getElementById('section-rekap').classList.remove('hidden');
+        document.getElementById('tab-rekap').classList.add('border-blue-500', 'text-blue-600');
+      } else if (tab === 'data') {
+        document.getElementById('section-data').classList.remove('hidden');
+        document.getElementById('tab-data').classList.add('border-blue-500', 'text-blue-600');
+        displayDataTable();
+      }
+
+      onConfigChange(window.elementSdk?.config || defaultConfig);
+    }
+
+    function updateFilterOptions() {
+      const ekstraSet = new Set();
+      const kelasSet = new Set();
+
+      anggotaData.forEach(anggota => {
+        ekstraSet.add(anggota.ekstra);
+        kelasSet.add(anggota.kelas);
+      });
+
+      const filterEkstra = document.getElementById('filter-ekstra');
+      const rekapEkstra = document.getElementById('rekap-ekstra');
+      
+      filterEkstra.innerHTML = '<option value="">-- Pilih Ekstra --</option>';
+      rekapEkstra.innerHTML = '<option value="">Semua Ekstra</option>';
+      
+      Array.from(ekstraSet).sort().forEach(ekstra => {
+        filterEkstra.innerHTML += `<option value="${ekstra}">${ekstra}</option>`;
+        rekapEkstra.innerHTML += `<option value="${ekstra}">${ekstra}</option>`;
+      });
+
+      const rekapKelas = document.getElementById('rekap-kelas');
+      rekapKelas.innerHTML = '<option value="">Semua Kelas</option>';
+      Array.from(kelasSet).sort().forEach(kelas => {
+        rekapKelas.innerHTML += `<option value="${kelas}">${kelas}</option>`;
+      });
+    }
+
+    function filterAnggota() {
+      const selectedEkstra = document.getElementById('filter-ekstra').value;
+      
+      if (!selectedEkstra) {
+        showToast('Pilih ekstra kurikuler terlebih dahulu', 'error');
+        return;
+      }
+
+      const filtered = anggotaData.filter(a => a.ekstra === selectedEkstra);
+      displayAnggotaList(filtered, selectedEkstra);
+    }
+
+    function displayAnggotaList(anggota, ekstra) {
+      const container = document.getElementById('anggota-container');
+      const listDiv = document.getElementById('anggota-list');
+      const countSpan = document.getElementById('anggota-count');
+
+      if (anggota.length === 0) {
+        listDiv.classList.add('hidden');
+        showToast('Tidak ada anggota untuk ekstra ini', 'error');
+        return;
+      }
+
+      anggota.sort((a, b) => {
+        if (a.kelas !== b.kelas) {
+          return a.kelas.localeCompare(b.kelas);
+        }
+        return a.nama.localeCompare(b.nama);
+      });
+
+      listDiv.classList.remove('hidden');
+      countSpan.textContent = `${anggota.length} Anggota`;
+      
+      container.innerHTML = `
+        <form id="form-batch-penilaian" class="space-y-4">
+          <div class="overflow-x-auto">
+            <table class="w-full border-collapse">
+              <thead>
+                <tr style="background-color: ${window.elementSdk?.config?.primary_color || defaultConfig.primary_color}; color: ${window.elementSdk?.config?.secondary_color || defaultConfig.secondary_color};">
+                  <th class="border px-4 py-3 text-left font-semibold">No</th>
+                  <th class="border px-4 py-3 text-left font-semibold">Kelas</th>
+                  <th class="border px-4 py-3 text-left font-semibold">Nama</th>
+                  <th class="border px-4 py-3 text-left font-semibold">Kategori Nilai</th>
+                  <th class="border px-4 py-3 text-left font-semibold">Keterangan</th>
+                </tr>
+              </thead>
+              <tbody id="anggota-tbody">
+              </tbody>
+            </table>
+          </div>
+          <div class="flex justify-end mt-6">
+            <button type="submit" id="btn-kirim-nilai" class="px-8 py-3 rounded-lg font-medium transition-colors text-lg">
+              Kirim Semua Nilai
+            </button>
+          </div>
+        </form>
+      `;
+
+      const tbody = document.getElementById('anggota-tbody');
+      
+      anggota.forEach((member, index) => {
+        const existingRecord = allRecords.find(r => 
+          r.nama === member.nama && r.ekstra === member.ekstra
+        );
+
+        const row = document.createElement('tr');
+        row.className = 'border-b hover:bg-gray-50';
+        row.innerHTML = `
+          <td class="border px-4 py-3 text-center font-medium">${index + 1}</td>
+          <td class="border px-4 py-3">${member.kelas}</td>
+          <td class="border px-4 py-3 font-medium">${member.nama}</td>
+          <td class="border px-4 py-3">
+            <select name="kategori_${index}" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:outline-none" required>
+              <option value="Sangat Baik" ${existingRecord?.nilai === 'Sangat Baik' ? 'selected' : ''}>SANGAT BAIK</option>
+              <option value="Baik" ${!existingRecord || existingRecord?.nilai === 'Baik' ? 'selected' : ''}>BAIK</option>
+              <option value="Sedang" ${existingRecord?.nilai === 'Sedang' ? 'selected' : ''}>SEDANG</option>
+              <option value="Cukup" ${existingRecord?.nilai === 'Cukup' ? 'selected' : ''}>CUKUP</option>
+            </select>
+          </td>
+          <td class="border px-4 py-3">
+            <textarea name="keterangan_${index}" rows="3" placeholder="Masukkan keterangan tambahan..." class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:outline-none resize-none">${existingRecord?.keterangan || ''}</textarea>
+          </td>
+        `;
+
+        row.innerHTML += `
+          <input type="hidden" name="nama_${index}" value="${member.nama}">
+          <input type="hidden" name="kelas_${index}" value="${member.kelas}">
+          <input type="hidden" name="ekstra_${index}" value="${member.ekstra}">
+        `;
+
+        tbody.appendChild(row);
+      });
+
+      const btnKirim = document.getElementById('btn-kirim-nilai');
+      btnKirim.style.backgroundColor = window.elementSdk?.config?.accent_color || defaultConfig.accent_color;
+      btnKirim.style.color = window.elementSdk?.config?.secondary_color || defaultConfig.secondary_color;
+
+      document.getElementById('form-batch-penilaian').addEventListener('submit', submitBatchPenilaian);
+    }
+
+    function openFormModal(nama, kelas, ekstra, record = null) {
+      const modal = document.getElementById('modal-form');
+      const title = document.getElementById('modal-title');
+      
+      // If record is passed directly (from edit button), use it
+      // Otherwise find existing record (for input penilaian)
+      const existingRecord = record || allRecords.find(r => 
+        r.nama === nama && r.ekstra === ekstra
+      );
+
+      editingRecord = existingRecord;
+
+      title.textContent = existingRecord ? 'Edit Penilaian' : 'Input Penilaian';
+      document.getElementById('form-nama').value = nama;
+      document.getElementById('form-kelas').value = kelas;
+      document.getElementById('form-ekstra').value = ekstra;
+      
+      // Set nilai dropdown berdasarkan kategori penilaian yang tersimpan
+      if (existingRecord) {
+        // Handle both numeric and string values for kategori
+        let kategoriValue = existingRecord.nilai;
+        if (typeof existingRecord.nilai === 'number') {
+          if (existingRecord.nilai >= 85) kategoriValue = 'Sangat Baik';
+          else if (existingRecord.nilai >= 70) kategoriValue = 'Baik';
+          else if (existingRecord.nilai >= 55) kategoriValue = 'Sedang';
+          else kategoriValue = 'Cukup';
+        }
+        
+        document.getElementById('form-keterangan').value = kategoriValue || '';
+        document.getElementById('form-nilai').value = existingRecord.keterangan || '';
+      } else {
+        document.getElementById('form-keterangan').value = '';
+        document.getElementById('form-nilai').value = '';
+      }
+
+      modal.classList.remove('hidden');
+    }
+
+    function closeFormModal() {
+      document.getElementById('modal-form').classList.add('hidden');
+      document.getElementById('form-penilaian').reset();
+      editingRecord = null;
+    }
+
+    // Modal functions untuk anggota
+    function openAnggotaModal(anggota = null) {
+      const modal = document.getElementById('modal-anggota');
+      const title = document.getElementById('modal-anggota-title');
+      
+      editingAnggota = anggota;
+
+      // Update dropdown options
+      updateAnggotaDropdowns();
+
+      if (anggota) {
+        title.textContent = 'Edit Anggota';
+        document.getElementById('anggota-nama').value = anggota.nama;
+        
+        // Set kelas
+        const kelasSelect = document.getElementById('anggota-kelas-select');
+        const kelasInput = document.getElementById('anggota-kelas-input');
+        if ([...kelasSelect.options].some(opt => opt.value === anggota.kelas)) {
+          kelasSelect.value = anggota.kelas;
+          kelasInput.value = '';
+        } else {
+          kelasSelect.value = '';
+          kelasInput.value = anggota.kelas;
+        }
+        
+        // Set ekstra
+        const ekstraSelect = document.getElementById('anggota-ekstra-select');
+        const ekstraInput = document.getElementById('anggota-ekstra-input');
+        if ([...ekstraSelect.options].some(opt => opt.value === anggota.ekstra)) {
+          ekstraSelect.value = anggota.ekstra;
+          ekstraInput.value = '';
+        } else {
+          ekstraSelect.value = '';
+          ekstraInput.value = anggota.ekstra;
+        }
+      } else {
+        title.textContent = 'Tambah Anggota';
+        document.getElementById('form-anggota').reset();
+      }
+
+      modal.classList.remove('hidden');
+    }
+
+    function closeAnggotaModal() {
+      document.getElementById('modal-anggota').classList.add('hidden');
+      document.getElementById('form-anggota').reset();
+      editingAnggota = null;
+    }
+
+    function updateAnggotaDropdowns() {
+      const kelasSet = new Set();
+      const ekstraSet = new Set();
+
+      anggotaData.forEach(anggota => {
+        kelasSet.add(anggota.kelas);
+        ekstraSet.add(anggota.ekstra);
+      });
+
+      // Update kelas dropdown
+      const kelasSelect = document.getElementById('anggota-kelas-select');
+      kelasSelect.innerHTML = '<option value="">-- Pilih Kelas atau Tulis Baru --</option>';
+      Array.from(kelasSet).sort().forEach(kelas => {
+        kelasSelect.innerHTML += `<option value="${kelas}">${kelas}</option>`;
+      });
+
+      // Update ekstra dropdown
+      const ekstraSelect = document.getElementById('anggota-ekstra-select');
+      ekstraSelect.innerHTML = '<option value="">-- Pilih Ekstra atau Tulis Baru --</option>';
+      Array.from(ekstraSet).sort().forEach(ekstra => {
+        ekstraSelect.innerHTML += `<option value="${ekstra}">${ekstra}</option>`;
+      });
+    }
+
+    async function submitForm(e) {
+      e.preventDefault();
+
+      const btnSubmit = document.getElementById('btn-submit');
+      btnSubmit.disabled = true;
+      btnSubmit.textContent = 'Menyimpan...';
+
+      const formData = {
+        nama: document.getElementById('form-nama').value,
+        kelas: document.getElementById('form-kelas').value,
+        ekstra: document.getElementById('form-ekstra').value,
+        nilai: document.getElementById('form-keterangan').value, // Kategori Penilaian
+        keterangan: document.getElementById('form-nilai').value, // Deskripsi
+        timestamp: new Date().toISOString()
+      };
+
+      let result = { isOk: false };
+      let useDataSdk = window.dataSdk && allRecords.length < 999;
+      
+      if (editingRecord) {
+        // Check if editing record from Data SDK or Sheet3
+        if (editingRecord.__backendId && window.dataSdk) {
+          // Update in Data SDK
+          try {
+            result = await window.dataSdk.update({
+              ...editingRecord,
+              ...formData
+            });
+          } catch (error) {
+            console.error('Data SDK update error:', error);
+            result = { isOk: false };
+          }
+        } else {
+          // Update in rekapRecords (Sheet3 data)
+          const index = rekapRecords.findIndex(r => 
+            r.nama === editingRecord.nama && 
+            r.kelas === editingRecord.kelas && 
+            r.ekstra === editingRecord.ekstra &&
+            r.nilai === editingRecord.nilai
+          );
+          
+          if (index !== -1) {
+            rekapRecords[index] = { ...rekapRecords[index], ...formData };
+            result = { isOk: true };
+          }
+        }
+      } else {
+        // Create new record
+        if (useDataSdk) {
+          try {
+            result = await window.dataSdk.create({
+              id: Date.now().toString(),
+              ...formData
+            });
+          } catch (error) {
+            console.error('Data SDK create error:', error);
+            result = { isOk: false };
+          }
+        } else {
+          // If Data SDK not available or limit reached, just send to Google Sheet
+          result = { isOk: true };
+        }
+      }
+
+      // Always try to send to Google Sheet
+      const sheetResult = await sendToGoogleSheet(formData);
+
+      btnSubmit.disabled = false;
+      btnSubmit.textContent = 'Simpan';
+
+      if (sheetResult.success) {
+        showToast(`Data berhasil dikirim ke Google Sheet${result.isOk ? ' dan disimpan lokal' : ''}`);
+        closeFormModal();
+        
+        // Refresh appropriate view
+        if (currentTab === 'input') {
+          filterAnggota();
+        } else if (currentTab === 'rekap') {
+          updateRekapTable();
+        }
+      } else if (result.isOk) {
+        showToast(`Data tersimpan lokal, tapi gagal kirim ke Google Sheet: ${sheetResult.message}`, 'error');
+        closeFormModal();
+        
+        // Refresh appropriate view
+        if (currentTab === 'input') {
+          filterAnggota();
+        } else if (currentTab === 'rekap') {
+          updateRekapTable();
+        }
+      } else {
+        showToast(`Gagal menyimpan dan mengirim penilaian: ${sheetResult.message}`, 'error');
+      }
+    }
+
+    async function submitAnggotaForm(e) {
+      e.preventDefault();
+
+      if (anggotaData.length >= 999 && !editingAnggota) {
+        showToast('Maksimum 999 anggota tercapai. Hapus beberapa data terlebih dahulu.', 'error');
+        return;
+      }
+
+      const btnSubmit = document.getElementById('btn-submit-anggota');
+      btnSubmit.disabled = true;
+      btnSubmit.textContent = 'Menyimpan...';
+
+      // Get kelas value (from select or input)
+      const kelasSelect = document.getElementById('anggota-kelas-select').value;
+      const kelasInput = document.getElementById('anggota-kelas-input').value.trim();
+      const kelas = kelasSelect || kelasInput;
+
+      // Get ekstra value (from select or input)
+      const ekstraSelect = document.getElementById('anggota-ekstra-select').value;
+      const ekstraInput = document.getElementById('anggota-ekstra-input').value.trim();
+      const ekstra = ekstraSelect || ekstraInput;
+
+      if (!kelas) {
+        showToast('Pilih kelas atau tulis kelas baru', 'error');
+        btnSubmit.disabled = false;
+        btnSubmit.textContent = 'Simpan';
+        return;
+      }
+
+      if (!ekstra) {
+        showToast('Pilih ekstra atau tulis ekstra baru', 'error');
+        btnSubmit.disabled = false;
+        btnSubmit.textContent = 'Simpan';
+        return;
+      }
+
+      const formData = {
+        nama: document.getElementById('anggota-nama').value.trim(),
+        kelas: kelas,
+        ekstra: ekstra,
+        timestamp: new Date().toISOString()
+      };
+
+      let result = { success: false };
+      
+      if (editingAnggota) {
+        // Update existing anggota in local data
+        const index = anggotaData.findIndex(a => a.id === editingAnggota.id);
+        if (index !== -1) {
+          anggotaData[index] = { ...anggotaData[index], ...formData };
+          
+          // Update filtered data as well
+          const filteredIndex = filteredAnggotaData.findIndex(a => a.id === editingAnggota.id);
+          if (filteredIndex !== -1) {
+            filteredAnggotaData[filteredIndex] = { ...filteredAnggotaData[filteredIndex], ...formData };
+          }
+          
+          result = { success: true };
+        }
+      } else {
+        // Check for duplicate
+        const duplicate = anggotaData.find(a => 
+          a.nama === formData.nama && 
+          a.kelas === formData.kelas && 
+          a.ekstra === formData.ekstra
+        );
+        
+        if (duplicate) {
+          result = { success: false, message: 'Data anggota sudah ada' };
+        } else {
+          // Add new anggota to local data
+          const newAnggota = { ...formData, id: Date.now().toString() };
+          anggotaData.push(newAnggota);
+          
+          // Update filtered data if it matches current search
+          const searchTerm = document.getElementById('search-anggota').value.toLowerCase().trim();
+          if (searchTerm === '' || 
+              newAnggota.nama.toLowerCase().includes(searchTerm) ||
+              newAnggota.kelas.toLowerCase().includes(searchTerm) ||
+              newAnggota.ekstra.toLowerCase().includes(searchTerm)) {
+            filteredAnggotaData.push(newAnggota);
+          }
+          
+          result = { success: true };
+        }
+      }
+
+      btnSubmit.disabled = false;
+      btnSubmit.textContent = 'Simpan';
+
+      if (result.success) {
+        showToast(editingAnggota ? 'Anggota berhasil diupdate' : 'Anggota berhasil ditambahkan');
+        closeAnggotaModal();
+        updateFilterOptions();
+        displayDataTable();
+      } else {
+        showToast(result.message || 'Gagal menyimpan anggota', 'error');
+      }
+    }
+
+    async function submitBatchPenilaian(e) {
+      e.preventDefault();
+
+      const form = e.target;
+      const formData = new FormData(form);
+      const btnKirim = document.getElementById('btn-kirim-nilai');
+      
+      btnKirim.disabled = true;
+      btnKirim.textContent = 'Menyimpan...';
+
+      const penilaianList = [];
+      const anggotaCount = document.querySelectorAll('[name^="nama_"]').length;
+
+      for (let i = 0; i < anggotaCount; i++) {
+        const nama = formData.get(`nama_${i}`);
+        const kelas = formData.get(`kelas_${i}`);
+        const ekstra = formData.get(`ekstra_${i}`);
+        const kategoriNilai = formData.get(`kategori_${i}`);
+        const keteranganDetail = formData.get(`keterangan_${i}`) || '';
+
+        const penilaianData = {
+          nama,
+          kelas,
+          ekstra,
+          nilai: kategoriNilai,
+          keterangan: keteranganDetail,
+          timestamp: new Date().toISOString()
+        };
+
+        penilaianList.push(penilaianData);
+      }
+
+      // Check if Data SDK is available and connected
+      if (!window.dataSdk) {
+        // If Data SDK not available, just send to Google Sheet
+        const sheetResult = await sendToGoogleSheet(penilaianList);
+        
+        btnKirim.disabled = false;
+        btnKirim.textContent = 'Kirim Semua Nilai';
+        
+        if (sheetResult.success) {
+          showToast(`Berhasil mengirim ${penilaianList.length} penilaian ke Google Sheet`);
+          filterAnggota();
+        } else {
+          showToast(`Gagal mengirim ke Google Sheet: ${sheetResult.message}`, 'error');
+        }
+        return;
+      }
+
+      const newRecordsCount = penilaianList.filter(p => {
+        return !allRecords.find(r => r.nama === p.nama && r.ekstra === p.ekstra);
+      }).length;
+
+      if (allRecords.length + newRecordsCount > 999) {
+        showToast('Maksimum 999 penilaian tercapai. Hapus beberapa data terlebih dahulu.', 'error');
+        btnKirim.disabled = false;
+        btnKirim.textContent = 'Kirim Semua Nilai';
+        return;
+      }
+
+      let successCount = 0;
+      let errorCount = 0;
+
+      for (const penilaian of penilaianList) {
+        try {
+          const existingRecord = allRecords.find(r => 
+            r.nama === penilaian.nama && r.ekstra === penilaian.ekstra
+          );
+
+          let result;
+          if (existingRecord) {
+            result = await window.dataSdk.update({
+              ...existingRecord,
+              ...penilaian
+            });
+          } else {
+            result = await window.dataSdk.create({
+              id: `${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+              ...penilaian
+            });
+          }
+
+          if (result && result.isOk) {
+            successCount++;
+          } else {
+            errorCount++;
+          }
+        } catch (error) {
+          console.error('Data SDK error:', error);
+          errorCount++;
+        }
+      }
+
+      // Always try to send to Google Sheet regardless of Data SDK status
+      const sheetResult = await sendToGoogleSheet(penilaianList);
+
+      btnKirim.disabled = false;
+      btnKirim.textContent = 'Kirim Semua Nilai';
+
+      if (sheetResult.success) {
+        showToast(`Berhasil mengirim ${penilaianList.length} penilaian ke Google Sheet${successCount > 0 ? ` dan menyimpan ${successCount} lokal` : ''}`);
+        filterAnggota();
+      } else if (successCount > 0) {
+        showToast(`Data tersimpan lokal (${successCount} berhasil), tapi gagal kirim ke Google Sheet: ${sheetResult.message}`, 'error');
+        filterAnggota();
+      } else {
+        showToast(`Gagal menyimpan dan mengirim penilaian: ${sheetResult.message}`, 'error');
+      }
+    }
+
+    function updateRekapTable() {
+      const tbody = document.getElementById('rekap-tbody');
+      const emptyDiv = document.getElementById('empty-rekap');
+
+      const ekstraFilter = document.getElementById('rekap-ekstra').value;
+      const kelasFilter = document.getElementById('rekap-kelas').value;
+      const keteranganFilter = document.getElementById('rekap-keterangan').value;
+
+      // Only use rekapRecords (from Sheet3), don't fallback to allRecords
+      let sourceData = rekapRecords;
+      let filtered = sourceData;
+
+      if (ekstraFilter) {
+        filtered = filtered.filter(r => r.ekstra === ekstraFilter);
+      }
+      if (kelasFilter) {
+        filtered = filtered.filter(r => r.kelas === kelasFilter);
+      }
+      if (keteranganFilter) {
+        filtered = filtered.filter(r => r.nilai === keteranganFilter);
+      }
+
+      // Apply sorting based on filter selection
+      filtered.sort((a, b) => {
+        if (ekstraFilter && !kelasFilter) {
+          // Filter by specific ekstra: sort by kelas, then nama
+          if (a.kelas !== b.kelas) {
+            return a.kelas.localeCompare(b.kelas);
+          }
+          return a.nama.localeCompare(b.nama);
+        } else if (kelasFilter && !ekstraFilter) {
+          // Filter by specific kelas: sort by nama only
+          return a.nama.localeCompare(b.nama);
+        } else {
+          // All ekstra or all kelas: sort by kelas, then nama
+          if (a.kelas !== b.kelas) {
+            return a.kelas.localeCompare(b.kelas);
+          }
+          return a.nama.localeCompare(b.nama);
+        }
+      });
+
+      filteredRecords = filtered;
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = '';
+        emptyDiv.classList.remove('hidden');
+        document.getElementById('pagination-container').classList.add('hidden');
+        return;
+      }
+
+      emptyDiv.classList.add('hidden');
+      
+      const totalPages = Math.ceil(filtered.length / recordsPerPage);
+      const startIndex = (currentPage - 1) * recordsPerPage;
+      const endIndex = startIndex + recordsPerPage;
+      const paginatedRecords = filtered.slice(startIndex, endIndex);
+
+      tbody.innerHTML = '';
+
+      paginatedRecords.forEach(record => {
+        const row = document.createElement('tr');
+        row.className = 'border-b';
+        
+        // Determine kategori nilai - if record.nilai is a number, convert to category
+        let kategoriNilai = record.nilai;
+        if (typeof record.nilai === 'number') {
+          if (record.nilai >= 85) kategoriNilai = 'SANGAT BAIK';
+          else if (record.nilai >= 70) kategoriNilai = 'BAIK';
+          else if (record.nilai >= 55) kategoriNilai = 'SEDANG';
+          else kategoriNilai = 'CUKUP';
+        } else if (typeof record.nilai === 'string') {
+          // Convert to uppercase for consistency
+          kategoriNilai = record.nilai.toUpperCase();
+        }
+        
+        row.innerHTML = `
+          <td class="px-4 py-3">${record.ekstra}</td>
+          <td class="px-4 py-3">${record.kelas}</td>
+          <td class="px-4 py-3">${record.nama}</td>
+          <td class="px-4 py-3 font-semibold">${kategoriNilai}</td>
+          <td class="px-4 py-3">${record.keterangan || '-'}</td>
+          <td class="px-4 py-3">
+            <button class="btn-edit px-3 py-1 rounded text-sm font-medium mr-2 transition-colors" data-record='${JSON.stringify(record)}'>Edit</button>
+            <button class="btn-delete px-3 py-1 rounded text-sm font-medium transition-colors" data-record='${JSON.stringify(record)}'>Hapus</button>
+          </td>
+        `;
+
+        const btnEdit = row.querySelector('.btn-edit');
+        if (btnEdit) {
+          btnEdit.style.backgroundColor = window.elementSdk?.config?.primary_color || defaultConfig.primary_color;
+          btnEdit.style.color = window.elementSdk?.config?.secondary_color || defaultConfig.secondary_color;
+        }
+
+        const btnDelete = row.querySelector('.btn-delete');
+        if (btnDelete) {
+          btnDelete.style.backgroundColor = window.elementSdk?.config?.danger_color || defaultConfig.danger_color;
+          btnDelete.style.color = window.elementSdk?.config?.secondary_color || defaultConfig.secondary_color;
+        }
+
+        tbody.appendChild(row);
+      });
+
+      updatePagination(totalPages);
+
+      document.querySelectorAll('.btn-edit').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const record = JSON.parse(e.target.dataset.record);
+          // Pass the complete record to ensure form shows exact data from table
+          openFormModal(record.nama, record.kelas, record.ekstra, record);
+        });
+      });
+
+      document.querySelectorAll('.btn-delete').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const record = JSON.parse(e.target.dataset.record);
+          openDeleteModal(record, 'penilaian');
+        });
+      });
+    }
+
+    function updatePagination(totalPages) {
+      const container = document.getElementById('pagination-container');
+      const info = document.getElementById('pagination-info');
+      const prevBtn = document.getElementById('btn-prev');
+      const nextBtn = document.getElementById('btn-next');
+
+      if (totalPages <= 1) {
+        container.classList.add('hidden');
+        return;
+      }
+
+      container.classList.remove('hidden');
+      
+      const startRecord = (currentPage - 1) * recordsPerPage + 1;
+      const endRecord = Math.min(currentPage * recordsPerPage, filteredRecords.length);
+      
+      info.textContent = `Halaman ${currentPage} dari ${totalPages} (${startRecord}-${endRecord} dari ${filteredRecords.length} data)`;
+      
+      prevBtn.disabled = currentPage === 1;
+      nextBtn.disabled = currentPage === totalPages;
+      
+      prevBtn.style.opacity = currentPage === 1 ? '0.5' : '1';
+      nextBtn.style.opacity = currentPage === totalPages ? '0.5' : '1';
+    }
+
+    function goToPrevPage() {
+      if (currentPage > 1) {
+        currentPage--;
+        updateRekapTable();
+      }
+    }
+
+    function goToNextPage() {
+      const totalPages = Math.ceil(filteredRecords.length / recordsPerPage);
+      if (currentPage < totalPages) {
+        currentPage++;
+        updateRekapTable();
+      }
+    }
+
+    // Fungsi search untuk anggota
+    function searchAnggota() {
+      const searchTerm = document.getElementById('search-anggota').value.toLowerCase().trim();
+      
+      if (searchTerm === '') {
+        filteredAnggotaData = anggotaData;
+      } else {
+        filteredAnggotaData = anggotaData.filter(anggota => 
+          anggota.nama.toLowerCase().includes(searchTerm) ||
+          anggota.kelas.toLowerCase().includes(searchTerm) ||
+          anggota.ekstra.toLowerCase().includes(searchTerm)
+        );
+      }
+      
+      currentAnggotaPage = 1;
+      displayDataTable();
+    }
+
+    function displayDataTable() {
+      const tbody = document.getElementById('data-tbody');
+      const emptyDiv = document.getElementById('empty-data');
+
+      if (filteredAnggotaData.length === 0) {
+        emptyDiv.classList.remove('hidden');
+        tbody.innerHTML = '';
+        document.getElementById('anggota-pagination').classList.add('hidden');
+        return;
+      }
+
+      emptyDiv.classList.add('hidden');
+      
+      // Sort filtered data by kelas first, then by nama (A-Z)
+      filteredAnggotaData.sort((a, b) => {
+        if (a.kelas !== b.kelas) {
+          return a.kelas.localeCompare(b.kelas);
+        }
+        return a.nama.localeCompare(b.nama);
+      });
+      
+      const totalPages = Math.ceil(filteredAnggotaData.length / anggotaPerPage);
+      const startIndex = (currentAnggotaPage - 1) * anggotaPerPage;
+      const endIndex = startIndex + anggotaPerPage;
+      const paginatedData = filteredAnggotaData.slice(startIndex, endIndex);
+
+      tbody.innerHTML = '';
+
+      paginatedData.forEach(anggota => {
+        const row = document.createElement('tr');
+        row.className = 'border-b';
+        row.innerHTML = `
+          <td class="px-4 py-3">${anggota.nama}</td>
+          <td class="px-4 py-3">${anggota.kelas}</td>
+          <td class="px-4 py-3">${anggota.ekstra}</td>
+          <td class="px-4 py-3">
+            <button class="btn-edit-anggota px-3 py-1 rounded text-sm font-medium mr-2 transition-colors" data-anggota='${JSON.stringify(anggota)}'>Edit</button>
+            <button class="btn-delete-anggota px-3 py-1 rounded text-sm font-medium transition-colors" data-anggota='${JSON.stringify(anggota)}'>Hapus</button>
+          </td>
+        `;
+
+        const btnEdit = row.querySelector('.btn-edit-anggota');
+        btnEdit.style.backgroundColor = window.elementSdk?.config?.primary_color || defaultConfig.primary_color;
+        btnEdit.style.color = window.elementSdk?.config?.secondary_color || defaultConfig.secondary_color;
+
+        const btnDelete = row.querySelector('.btn-delete-anggota');
+        btnDelete.style.backgroundColor = window.elementSdk?.config?.danger_color || defaultConfig.danger_color;
+        btnDelete.style.color = window.elementSdk?.config?.secondary_color || defaultConfig.secondary_color;
+
+        tbody.appendChild(row);
+      });
+
+      updateAnggotaPagination(totalPages);
+
+      // Add event listeners for edit and delete buttons
+      document.querySelectorAll('.btn-edit-anggota').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const anggota = JSON.parse(e.target.dataset.anggota);
+          openAnggotaModal(anggota);
+        });
+      });
+
+      document.querySelectorAll('.btn-delete-anggota').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const anggota = JSON.parse(e.target.dataset.anggota);
+          openDeleteModal(anggota, 'anggota');
+        });
+      });
+    }
+
+    function updateAnggotaPagination(totalPages) {
+      const container = document.getElementById('anggota-pagination');
+      const info = document.getElementById('anggota-pagination-info');
+      const prevBtn = document.getElementById('btn-anggota-prev');
+      const nextBtn = document.getElementById('btn-anggota-next');
+
+      if (totalPages <= 1) {
+        container.classList.add('hidden');
+        return;
+      }
+
+      container.classList.remove('hidden');
+      
+      const startRecord = (currentAnggotaPage - 1) * anggotaPerPage + 1;
+      const endRecord = Math.min(currentAnggotaPage * anggotaPerPage, filteredAnggotaData.length);
+      
+      info.textContent = `Halaman ${currentAnggotaPage} dari ${totalPages} (${startRecord}-${endRecord} dari ${filteredAnggotaData.length} data)`;
+      
+      prevBtn.disabled = currentAnggotaPage === 1;
+      nextBtn.disabled = currentAnggotaPage === totalPages;
+      
+      prevBtn.style.opacity = currentAnggotaPage === 1 ? '0.5' : '1';
+      nextBtn.style.opacity = currentAnggotaPage === totalPages ? '0.5' : '1';
+    }
+
+    function goToAnggotaPrevPage() {
+      if (currentAnggotaPage > 1) {
+        currentAnggotaPage--;
+        displayDataTable();
+      }
+    }
+
+    function goToAnggotaNextPage() {
+      const totalPages = Math.ceil(filteredAnggotaData.length / anggotaPerPage);
+      if (currentAnggotaPage < totalPages) {
+        currentAnggotaPage++;
+        displayDataTable();
+      }
+    }
+
+    function openDeleteModal(record, type = 'penilaian') {
+      if (type === 'penilaian') {
+        deleteRecord = record;
+        deleteAnggota = null;
+        document.getElementById('delete-message').textContent = 'Apakah Anda yakin ingin menghapus penilaian ini?';
+      } else {
+        deleteAnggota = record;
+        deleteRecord = null;
+        document.getElementById('delete-message').textContent = 'Apakah Anda yakin ingin menghapus anggota ini?';
+      }
+      
+      document.getElementById('modal-delete').classList.remove('hidden');
+    }
+
+    function closeDeleteModal() {
+      document.getElementById('modal-delete').classList.add('hidden');
+      deleteRecord = null;
+      deleteAnggota = null;
+    }
+
+    async function confirmDelete() {
+      const btnConfirm = document.getElementById('btn-confirm-delete');
+      btnConfirm.disabled = true;
+      btnConfirm.textContent = 'Menghapus...';
+
+      let result;
+      if (deleteRecord) {
+        // Check if record has __backendId (from Data SDK) or is from Sheet3
+        if (deleteRecord.__backendId) {
+          // Delete from Data SDK
+          result = await window.dataSdk.delete(deleteRecord);
+          if (result.isOk) {
+            showToast('Penilaian berhasil dihapus');
+            closeDeleteModal();
+            if (currentTab === 'input') {
+              filterAnggota();
+            } else {
+              updateRekapTable();
+            }
+          } else {
+            showToast('Gagal menghapus penilaian', 'error');
+          }
+        } else {
+          // Delete from rekapRecords (Sheet3 data)
+          const index = rekapRecords.findIndex(r => 
+            r.nama === deleteRecord.nama && 
+            r.kelas === deleteRecord.kelas && 
+            r.ekstra === deleteRecord.ekstra &&
+            r.nilai === deleteRecord.nilai
+          );
+          
+          if (index !== -1) {
+            rekapRecords.splice(index, 1);
+            showToast('Data rekap berhasil dihapus');
+            closeDeleteModal();
+            updateRekapTable();
+          } else {
+            showToast('Gagal menghapus data rekap', 'error');
+          }
+        }
+      } else if (deleteAnggota) {
+        // Delete from local anggotaData
+        const index = anggotaData.findIndex(a => a.id === deleteAnggota.id);
+        
+        if (index !== -1) {
+          anggotaData.splice(index, 1);
+          
+          // Update filtered data as well
+          const filteredIndex = filteredAnggotaData.findIndex(a => a.id === deleteAnggota.id);
+          if (filteredIndex !== -1) {
+            filteredAnggotaData.splice(filteredIndex, 1);
+          }
+          
+          showToast('Anggota berhasil dihapus');
+          closeDeleteModal();
+          updateFilterOptions();
+          displayDataTable();
+        } else {
+          showToast('Gagal menghapus anggota', 'error');
+        }
+      }
+
+      btnConfirm.disabled = false;
+      btnConfirm.textContent = 'Hapus';
+    }
+
+    function exportToExcel() {
+      if (filteredRecords.length === 0) {
+        showToast('Tidak ada data untuk diexport', 'error');
+        return;
+      }
+
+      // Create export modal
+      const modal = document.createElement('div');
+      modal.className = 'modal-backdrop';
+      modal.innerHTML = `
+        <div class="modal-content" style="max-width: 90%; max-height: 90%;">
+          <div class="flex justify-between items-center mb-4">
+            <h3 class="text-xl font-bold">Export Data Rekap Penilaian</h3>
+            <button id="close-export-modal" class="text-2xl font-bold">&times;</button>
+          </div>
+          <p class="mb-4 text-sm text-gray-600">Pilih semua data di tabel di bawah (Ctrl+A), lalu copy (Ctrl+C) dan paste ke Excel</p>
+          <div class="overflow-auto" style="max-height: 70vh;">
+            <table id="export-table" class="w-full border-collapse" style="border: 1px solid #ccc;">
+              <thead>
+                <tr style="background-color: #f0f0f0;">
+                  <th style="border: 1px solid #ccc; padding: 8px; text-align: left;">Ekstra</th>
+                  <th style="border: 1px solid #ccc; padding: 8px; text-align: left;">Kelas</th>
+                  <th style="border: 1px solid #ccc; padding: 8px; text-align: left;">Nama</th>
+                  <th style="border: 1px solid #ccc; padding: 8px; text-align: left;">Kategori Penilaian</th>
+                  <th style="border: 1px solid #ccc; padding: 8px; text-align: left;">Deskripsi</th>
+                </tr>
+              </thead>
+              <tbody id="export-tbody">
+              </tbody>
+            </table>
+          </div>
+          <div class="flex gap-3 mt-4">
+            <button id="select-all-data" class="px-4 py-2 rounded-lg font-medium transition-colors" style="background-color: #10b981; color: white;">
+              Pilih Semua Data
+            </button>
+            <button id="close-export" class="px-4 py-2 rounded-lg font-medium transition-colors" style="background-color: #6b7280; color: white;">
+              Tutup
+            </button>
+          </div>
+        </div>
+      `;
+
+      document.body.appendChild(modal);
+
+      // Populate table
+      const tbody = document.getElementById('export-tbody');
+      filteredRecords.forEach(record => {
+        let kategoriNilai = record.nilai;
+        if (typeof record.nilai === 'number') {
+          if (record.nilai >= 85) kategoriNilai = 'SANGAT BAIK';
+          else if (record.nilai >= 70) kategoriNilai = 'BAIK';
+          else if (record.nilai >= 55) kategoriNilai = 'SEDANG';
+          else kategoriNilai = 'CUKUP';
+        } else if (typeof record.nilai === 'string') {
+          kategoriNilai = record.nilai.toUpperCase();
+        }
+
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td style="border: 1px solid #ccc; padding: 8px;">${record.ekstra}</td>
+          <td style="border: 1px solid #ccc; padding: 8px;">${record.kelas}</td>
+          <td style="border: 1px solid #ccc; padding: 8px;">${record.nama}</td>
+          <td style="border: 1px solid #ccc; padding: 8px;">${kategoriNilai}</td>
+          <td style="border: 1px solid #ccc; padding: 8px;">${record.keterangan || '-'}</td>
+        `;
+        tbody.appendChild(row);
+      });
+
+      // Event listeners
+      document.getElementById('close-export-modal').addEventListener('click', () => modal.remove());
+      document.getElementById('close-export').addEventListener('click', () => modal.remove());
+      document.getElementById('select-all-data').addEventListener('click', () => {
+        const table = document.getElementById('export-table');
+        const range = document.createRange();
+        range.selectNode(table);
+        window.getSelection().removeAllRanges();
+        window.getSelection().addRange(range);
+        showToast('Data terpilih! Sekarang tekan Ctrl+C untuk copy, lalu paste ke Excel');
+      });
+
+      showToast('Tabel export siap! Pilih semua data lalu copy-paste ke Excel');
+    }
+
+    function exportAnggotaToExcel() {
+      if (filteredAnggotaData.length === 0) {
+        showToast('Tidak ada data anggota untuk diexport', 'error');
+        return;
+      }
+
+      // Create export modal
+      const modal = document.createElement('div');
+      modal.className = 'modal-backdrop';
+      modal.innerHTML = `
+        <div class="modal-content" style="max-width: 90%; max-height: 90%;">
+          <div class="flex justify-between items-center mb-4">
+            <h3 class="text-xl font-bold">Export Data Anggota</h3>
+            <button id="close-anggota-export-modal" class="text-2xl font-bold">&times;</button>
+          </div>
+          <p class="mb-4 text-sm text-gray-600">Pilih semua data di tabel di bawah (Ctrl+A), lalu copy (Ctrl+C) dan paste ke Excel</p>
+          <div class="overflow-auto" style="max-height: 70vh;">
+            <table id="anggota-export-table" class="w-full border-collapse" style="border: 1px solid #ccc;">
+              <thead>
+                <tr style="background-color: #f0f0f0;">
+                  <th style="border: 1px solid #ccc; padding: 8px; text-align: left;">Nama</th>
+                  <th style="border: 1px solid #ccc; padding: 8px; text-align: left;">Kelas</th>
+                  <th style="border: 1px solid #ccc; padding: 8px; text-align: left;">Ekstra</th>
+                </tr>
+              </thead>
+              <tbody id="anggota-export-tbody">
+              </tbody>
+            </table>
+          </div>
+          <div class="flex gap-3 mt-4">
+            <button id="select-all-anggota" class="px-4 py-2 rounded-lg font-medium transition-colors" style="background-color: #10b981; color: white;">
+              Pilih Semua Data
+            </button>
+            <button id="close-anggota-export" class="px-4 py-2 rounded-lg font-medium transition-colors" style="background-color: #6b7280; color: white;">
+              Tutup
+            </button>
+          </div>
+        </div>
+      `;
+
+      document.body.appendChild(modal);
+
+      // Populate table with sorted data
+      const sortedData = [...filteredAnggotaData].sort((a, b) => {
+        if (a.kelas !== b.kelas) {
+          return a.kelas.localeCompare(b.kelas);
+        }
+        return a.nama.localeCompare(b.nama);
+      });
+
+      const tbody = document.getElementById('anggota-export-tbody');
+      sortedData.forEach(anggota => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td style="border: 1px solid #ccc; padding: 8px;">${anggota.nama}</td>
+          <td style="border: 1px solid #ccc; padding: 8px;">${anggota.kelas}</td>
+          <td style="border: 1px solid #ccc; padding: 8px;">${anggota.ekstra}</td>
+        `;
+        tbody.appendChild(row);
+      });
+
+      // Event listeners
+      document.getElementById('close-anggota-export-modal').addEventListener('click', () => modal.remove());
+      document.getElementById('close-anggota-export').addEventListener('click', () => modal.remove());
+      document.getElementById('select-all-anggota').addEventListener('click', () => {
+        const table = document.getElementById('anggota-export-table');
+        const range = document.createRange();
+        range.selectNode(table);
+        window.getSelection().removeAllRanges();
+        window.getSelection().addRange(range);
+        showToast('Data terpilih! Sekarang tekan Ctrl+C untuk copy, lalu paste ke Excel');
+      });
+
+      showToast('Tabel export siap! Pilih semua data lalu copy-paste ke Excel');
+    }
+
+    // Event Listeners
+    document.getElementById('tab-input').addEventListener('click', () => switchTab('input'));
+    document.getElementById('tab-rekap').addEventListener('click', () => switchTab('rekap'));
+    document.getElementById('tab-data').addEventListener('click', () => switchTab('data'));
+    document.getElementById('btn-filter').addEventListener('click', filterAnggota);
+    document.getElementById('btn-cancel').addEventListener('click', closeFormModal);
+    document.getElementById('form-penilaian').addEventListener('submit', submitForm);
+    document.getElementById('btn-cancel-delete').addEventListener('click', closeDeleteModal);
+    document.getElementById('btn-confirm-delete').addEventListener('click', confirmDelete);
+    document.getElementById('btn-load-rekap').addEventListener('click', loadRekapFromSheet3);
+    document.getElementById('btn-load-anggota').addEventListener('click', loadAnggotaFromSheet1);
+    document.getElementById('btn-export').addEventListener('click', exportToExcel);
+    document.getElementById('btn-export-anggota').addEventListener('click', exportAnggotaToExcel);
+    document.getElementById('btn-add-anggota').addEventListener('click', () => openAnggotaModal());
+    document.getElementById('btn-cancel-anggota').addEventListener('click', closeAnggotaModal);
+    document.getElementById('form-anggota').addEventListener('submit', submitAnggotaForm);
+
+    document.getElementById('rekap-ekstra').addEventListener('change', () => {
+      currentPage = 1;
+      updateRekapTable();
+    });
+    document.getElementById('rekap-kelas').addEventListener('change', () => {
+      currentPage = 1;
+      updateRekapTable();
+    });
+    document.getElementById('rekap-keterangan').addEventListener('change', () => {
+      currentPage = 1;
+      updateRekapTable();
+    });
+    
+    document.getElementById('btn-prev').addEventListener('click', goToPrevPage);
+    document.getElementById('btn-next').addEventListener('click', goToNextPage);
+    document.getElementById('btn-anggota-prev').addEventListener('click', goToAnggotaPrevPage);
+    document.getElementById('btn-anggota-next').addEventListener('click', goToAnggotaNextPage);
+
+    // Search event listener
+    document.getElementById('search-anggota').addEventListener('input', searchAnggota);
+
+    // Event listeners untuk dropdown anggota
+    document.getElementById('anggota-kelas-select').addEventListener('change', function() {
+      if (this.value) {
+        document.getElementById('anggota-kelas-input').value = '';
+      }
+    });
+
+    document.getElementById('anggota-kelas-input').addEventListener('input', function() {
+      if (this.value.trim()) {
+        document.getElementById('anggota-kelas-select').value = '';
+      }
+    });
+
+    document.getElementById('anggota-ekstra-select').addEventListener('change', function() {
+      if (this.value) {
+        document.getElementById('anggota-ekstra-input').value = '';
+      }
+    });
+
+    document.getElementById('anggota-ekstra-input').addEventListener('input', function() {
+      if (this.value.trim()) {
+        document.getElementById('anggota-ekstra-select').value = '';
+      }
+    });
+
+
+
+    async function init() {
+      try {
+        if (window.elementSdk) {
+          await window.elementSdk.init({
+            defaultConfig,
+            onConfigChange,
+            mapToCapabilities: (config) => ({
+              recolorables: [
+                {
+                  get: () => config.primary_color || defaultConfig.primary_color,
+                  set: (value) => {
+                    config.primary_color = value;
+                    window.elementSdk.setConfig({ primary_color: value });
+                  }
+                },
+                {
+                  get: () => config.secondary_color || defaultConfig.secondary_color,
+                  set: (value) => {
+                    config.secondary_color = value;
+                    window.elementSdk.setConfig({ secondary_color: value });
+                  }
+                },
+                {
+                  get: () => config.text_color || defaultConfig.text_color,
+                  set: (value) => {
+                    config.text_color = value;
+                    window.elementSdk.setConfig({ text_color: value });
+                  }
+                },
+                {
+                  get: () => config.accent_color || defaultConfig.accent_color,
+                  set: (value) => {
+                    config.accent_color = value;
+                    window.elementSdk.setConfig({ accent_color: value });
+                  }
+                },
+                {
+                  get: () => config.danger_color || defaultConfig.danger_color,
+                  set: (value) => {
+                    config.danger_color = value;
+                    window.elementSdk.setConfig({ danger_color: value });
+                  }
+                }
+              ],
+              borderables: [],
+              fontEditable: {
+                get: () => config.font_family || defaultConfig.font_family,
+                set: (value) => {
+                  config.font_family = value;
+                  window.elementSdk.setConfig({ font_family: value });
+                }
+              },
+              fontSizeable: {
+                get: () => config.font_size || defaultConfig.font_size,
+                set: (value) => {
+                  config.font_size = value;
+                  window.elementSdk.setConfig({ font_size: value });
+                }
+              }
+            }),
+            mapToEditPanelValues: (config) => new Map([
+              ["app_title", config.app_title || defaultConfig.app_title],
+              ["school_name", config.school_name || defaultConfig.school_name],
+              ["semester_label", config.semester_label || defaultConfig.semester_label]
+            ])
+          });
+        }
+
+        if (window.dataSdk) {
+          await window.dataSdk.init(dataHandler);
+        }
+
+        await onConfigChange(window.elementSdk?.config || defaultConfig);
+        
+        // Load real data from Google Sheets
+        await loadAnggotaFromSheet1();
+        
+        switchTab('input');
+      } catch (error) {
+        console.error('Initialization error:', error);
+        await onConfigChange(defaultConfig);
+        switchTab('input');
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+  </script> 
+</script></body>
+</html>
