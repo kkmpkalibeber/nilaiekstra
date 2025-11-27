@@ -1556,46 +1556,10 @@
         return;
       }
 
-      // Create export modal
-      const modal = document.createElement('div');
-      modal.className = 'modal-backdrop';
-      modal.innerHTML = `
-        <div class="modal-content" style="max-width: 90%; max-height: 90%;">
-          <div class="flex justify-between items-center mb-4">
-            <h3 class="text-xl font-bold">Export Data Rekap Penilaian</h3>
-            <button id="close-export-modal" class="text-2xl font-bold">&times;</button>
-          </div>
-          <p class="mb-4 text-sm text-gray-600">Pilih semua data di tabel di bawah (Ctrl+A), lalu copy (Ctrl+C) dan paste ke Excel</p>
-          <div class="overflow-auto" style="max-height: 70vh;">
-            <table id="export-table" class="w-full border-collapse" style="border: 1px solid #ccc;">
-              <thead>
-                <tr style="background-color: #f0f0f0;">
-                  <th style="border: 1px solid #ccc; padding: 8px; text-align: left;">Ekstra</th>
-                  <th style="border: 1px solid #ccc; padding: 8px; text-align: left;">Kelas</th>
-                  <th style="border: 1px solid #ccc; padding: 8px; text-align: left;">Nama</th>
-                  <th style="border: 1px solid #ccc; padding: 8px; text-align: left;">Kategori Penilaian</th>
-                  <th style="border: 1px solid #ccc; padding: 8px; text-align: left;">Deskripsi</th>
-                </tr>
-              </thead>
-              <tbody id="export-tbody">
-              </tbody>
-            </table>
-          </div>
-          <div class="flex gap-3 mt-4">
-            <button id="select-all-data" class="px-4 py-2 rounded-lg font-medium transition-colors" style="background-color: #10b981; color: white;">
-              Pilih Semua Data
-            </button>
-            <button id="close-export" class="px-4 py-2 rounded-lg font-medium transition-colors" style="background-color: #6b7280; color: white;">
-              Tutup
-            </button>
-          </div>
-        </div>
-      `;
-
-      document.body.appendChild(modal);
-
-      // Populate table
-      const tbody = document.getElementById('export-tbody');
+      // Create TSV (Tab Separated Values) format for Excel
+      const headers = ['Ekstra', 'Kelas', 'Nama', 'Kategori Penilaian', 'Deskripsi'];
+      let tsvContent = headers.join('\t') + '\n';
+      
       filteredRecords.forEach(record => {
         let kategoriNilai = record.nilai;
         if (typeof record.nilai === 'number') {
@@ -1606,31 +1570,53 @@
         } else if (typeof record.nilai === 'string') {
           kategoriNilai = record.nilai.toUpperCase();
         }
-
-        const row = document.createElement('tr');
-        row.innerHTML = `
-          <td style="border: 1px solid #ccc; padding: 8px;">${record.ekstra}</td>
-          <td style="border: 1px solid #ccc; padding: 8px;">${record.kelas}</td>
-          <td style="border: 1px solid #ccc; padding: 8px;">${record.nama}</td>
-          <td style="border: 1px solid #ccc; padding: 8px;">${kategoriNilai}</td>
-          <td style="border: 1px solid #ccc; padding: 8px;">${record.keterangan || '-'}</td>
-        `;
-        tbody.appendChild(row);
+        
+        // Clean data: remove tabs and newlines
+        const ekstra = (record.ekstra || '').replace(/[\t\n\r]/g, ' ');
+        const kelas = (record.kelas || '').replace(/[\t\n\r]/g, ' ');
+        const nama = (record.nama || '').replace(/[\t\n\r]/g, ' ');
+        const keterangan = (record.keterangan || '-').replace(/[\t\n\r]/g, ' ');
+        
+        tsvContent += `${ekstra}\t${kelas}\t${nama}\t${kategoriNilai}\t${keterangan}\n`;
       });
 
-      // Event listeners
-      document.getElementById('close-export-modal').addEventListener('click', () => modal.remove());
-      document.getElementById('close-export').addEventListener('click', () => modal.remove());
-      document.getElementById('select-all-data').addEventListener('click', () => {
-        const table = document.getElementById('export-table');
-        const range = document.createRange();
-        range.selectNode(table);
-        window.getSelection().removeAllRanges();
-        window.getSelection().addRange(range);
-        showToast('Data terpilih! Sekarang tekan Ctrl+C untuk copy, lalu paste ke Excel');
-      });
+      // Try to copy using modern clipboard API
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(tsvContent).then(() => {
+          showToast(`✅ ${filteredRecords.length} data ter-copy! Paste (Ctrl+V) ke Excel sekarang`, 'success');
+        }).catch(err => {
+          console.error('Clipboard API failed:', err);
+          fallbackCopy(tsvContent);
+        });
+      } else {
+        fallbackCopy(tsvContent);
+      }
+    }
 
-      showToast('Tabel export siap! Pilih semua data lalu copy-paste ke Excel');
+    function fallbackCopy(text) {
+      // Fallback method using textarea
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.style.position = 'fixed';
+      textarea.style.left = '-9999px';
+      textarea.style.top = '0';
+      document.body.appendChild(textarea);
+      textarea.focus();
+      textarea.select();
+      
+      try {
+        const successful = document.execCommand('copy');
+        if (successful) {
+          showToast(`✅ ${filteredRecords.length} data ter-copy! Paste (Ctrl+V) ke Excel sekarang`, 'success');
+        } else {
+          showToast('Gagal copy data. Coba gunakan browser yang lebih baru', 'error');
+        }
+      } catch (err) {
+        console.error('Fallback copy failed:', err);
+        showToast('Gagal copy data. Coba gunakan browser yang lebih baru', 'error');
+      }
+      
+      document.body.removeChild(textarea);
     }
 
     function exportAnggotaToExcel() {
@@ -1639,43 +1625,7 @@
         return;
       }
 
-      // Create export modal
-      const modal = document.createElement('div');
-      modal.className = 'modal-backdrop';
-      modal.innerHTML = `
-        <div class="modal-content" style="max-width: 90%; max-height: 90%;">
-          <div class="flex justify-between items-center mb-4">
-            <h3 class="text-xl font-bold">Export Data Anggota</h3>
-            <button id="close-anggota-export-modal" class="text-2xl font-bold">&times;</button>
-          </div>
-          <p class="mb-4 text-sm text-gray-600">Pilih semua data di tabel di bawah (Ctrl+A), lalu copy (Ctrl+C) dan paste ke Excel</p>
-          <div class="overflow-auto" style="max-height: 70vh;">
-            <table id="anggota-export-table" class="w-full border-collapse" style="border: 1px solid #ccc;">
-              <thead>
-                <tr style="background-color: #f0f0f0;">
-                  <th style="border: 1px solid #ccc; padding: 8px; text-align: left;">Nama</th>
-                  <th style="border: 1px solid #ccc; padding: 8px; text-align: left;">Kelas</th>
-                  <th style="border: 1px solid #ccc; padding: 8px; text-align: left;">Ekstra</th>
-                </tr>
-              </thead>
-              <tbody id="anggota-export-tbody">
-              </tbody>
-            </table>
-          </div>
-          <div class="flex gap-3 mt-4">
-            <button id="select-all-anggota" class="px-4 py-2 rounded-lg font-medium transition-colors" style="background-color: #10b981; color: white;">
-              Pilih Semua Data
-            </button>
-            <button id="close-anggota-export" class="px-4 py-2 rounded-lg font-medium transition-colors" style="background-color: #6b7280; color: white;">
-              Tutup
-            </button>
-          </div>
-        </div>
-      `;
-
-      document.body.appendChild(modal);
-
-      // Populate table with sorted data
+      // Sort data
       const sortedData = [...filteredAnggotaData].sort((a, b) => {
         if (a.kelas !== b.kelas) {
           return a.kelas.localeCompare(b.kelas);
@@ -1683,30 +1633,56 @@
         return a.nama.localeCompare(b.nama);
       });
 
-      const tbody = document.getElementById('anggota-export-tbody');
+      // Create TSV (Tab Separated Values) format for Excel
+      const headers = ['Nama', 'Kelas', 'Ekstra'];
+      let tsvContent = headers.join('\t') + '\n';
+      
       sortedData.forEach(anggota => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-          <td style="border: 1px solid #ccc; padding: 8px;">${anggota.nama}</td>
-          <td style="border: 1px solid #ccc; padding: 8px;">${anggota.kelas}</td>
-          <td style="border: 1px solid #ccc; padding: 8px;">${anggota.ekstra}</td>
-        `;
-        tbody.appendChild(row);
+        // Clean data: remove tabs and newlines
+        const nama = (anggota.nama || '').replace(/[\t\n\r]/g, ' ');
+        const kelas = (anggota.kelas || '').replace(/[\t\n\r]/g, ' ');
+        const ekstra = (anggota.ekstra || '').replace(/[\t\n\r]/g, ' ');
+        
+        tsvContent += `${nama}\t${kelas}\t${ekstra}\n`;
       });
 
-      // Event listeners
-      document.getElementById('close-anggota-export-modal').addEventListener('click', () => modal.remove());
-      document.getElementById('close-anggota-export').addEventListener('click', () => modal.remove());
-      document.getElementById('select-all-anggota').addEventListener('click', () => {
-        const table = document.getElementById('anggota-export-table');
-        const range = document.createRange();
-        range.selectNode(table);
-        window.getSelection().removeAllRanges();
-        window.getSelection().addRange(range);
-        showToast('Data terpilih! Sekarang tekan Ctrl+C untuk copy, lalu paste ke Excel');
-      });
+      // Try to copy using modern clipboard API
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(tsvContent).then(() => {
+          showToast(`✅ ${sortedData.length} data anggota ter-copy! Paste (Ctrl+V) ke Excel sekarang`, 'success');
+        }).catch(err => {
+          console.error('Clipboard API failed:', err);
+          fallbackCopyAnggota(tsvContent, sortedData.length);
+        });
+      } else {
+        fallbackCopyAnggota(tsvContent, sortedData.length);
+      }
+    }
 
-      showToast('Tabel export siap! Pilih semua data lalu copy-paste ke Excel');
+    function fallbackCopyAnggota(text, count) {
+      // Fallback method using textarea
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.style.position = 'fixed';
+      textarea.style.left = '-9999px';
+      textarea.style.top = '0';
+      document.body.appendChild(textarea);
+      textarea.focus();
+      textarea.select();
+      
+      try {
+        const successful = document.execCommand('copy');
+        if (successful) {
+          showToast(`✅ ${count} data anggota ter-copy! Paste (Ctrl+V) ke Excel sekarang`, 'success');
+        } else {
+          showToast('Gagal copy data. Coba gunakan browser yang lebih baru', 'error');
+        }
+      } catch (err) {
+        console.error('Fallback copy failed:', err);
+        showToast('Gagal copy data. Coba gunakan browser yang lebih baru', 'error');
+      }
+      
+      document.body.removeChild(textarea);
     }
 
     // Event Listeners
@@ -1865,5 +1841,5 @@
       init();
     }
   </script> 
-</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a4e313895031e3b',t:'MTc2NDIxMDUwNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
